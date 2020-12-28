@@ -6,8 +6,9 @@
       </ul>
       <div class="show-page">
         <div v-for="(i,v) in tabList" :key="v">
-            <template v-if="activeValue==i.value">
-            <slot :name="activeValue"></slot>
+          <template v-if="activeValue==i.value">
+            <!-- <p>{{i.slotName}}</p> -->
+            <slot :name="i.slotName"></slot>
           </template>
         </div>
       </div>
@@ -20,32 +21,30 @@ export default {
   data() {
     return {
       activeValue:'',
-      tabList:[]
+      // tabList:[],
     };
   },
   props:{
-    TabList:{
+    tabList:{
       type:Array,
-      default:[]
+      default:[],
     }
   },
   computed: {},
   watch: {
-    TabList(newVal,oldVal){
-      this.tabList=newVal;
-    }
+    
   },
   methods: {
     changeValue(item){
       this.activeValue=item.value;
+      // this.$store.commit('routerState',item.value)
+      this.$store.dispatch('commitRouterState',item.value)
     }
   },
   created() {
     
   },
-  mounted() {
-    console.log(this.tabList)
-  },
+  mounted() {},
 }
 </script>
 

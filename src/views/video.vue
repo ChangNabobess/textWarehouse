@@ -109,7 +109,7 @@ export default {
       let arr=this.arr;
       const b  = arr.reduce((r, x) => ((r[x.groupNo] || (r[x.groupNo] = []) ).push(x), r)
       , {});
-      console.log(b);
+      // console.log(b);
       //  自己转换
       const d = arr.reduce((prev, cur) => {
         // console.log(prev,cur);
@@ -121,7 +121,7 @@ export default {
         prev[cur.groupNo].push(cur);
         return prev;
       }, {});
-      console.log(b, d);}
+      // console.log(b, d);}
       // 转label，name
        /* this.protocolList.push(res.data);
         let arr=[];
@@ -176,26 +176,8 @@ export default {
         this.isIndeterminate = someStatusCount > 0 && someStatusCount < totalCount;
       }
     },
-    }*/, 
-    _changeArr() {
-    // 网上大神给的方法 小白一时没看懂
-      let arr=this.arr;
-      /* const b  = arr.reduce((r, x) => ((r[x.groupNo] || (r[x.groupNo] = []) ).push(x), r)
-      , {});
-      console.log(b); */
-      //  自己转换
-      const d = arr.reduce((prev, cur) => {
-        // console.log(prev,cur);
-        // console.log(prev[cur.groupNo]);
-        // console.log(cur);
-        if (!prev[cur.groupNo]) {
-          prev[cur.groupNo] = [];
-        }
-        prev[cur.groupNo].push(cur);
-        return prev;
-      }, {});
-      console.log(d);
-    },
+    },*/ 
+  },
     jsonToTree(lists, id, parentId) {
         var idList = {},
             treeList = [];
@@ -219,7 +201,26 @@ export default {
             }
         }
         return treeList
-    }
+    },
+     _changeArr2(){
+    // 网上大神给的方法 小白一时没看懂
+      let arr=this.arr;
+      /* const b  = arr.reduce((r, x) => ((r[x.groupNo] || (r[x.groupNo] = []) ).push(x), r)
+      , {});
+      console.log(b); */
+      //  自己转换
+      const d = arr.reduce((prev, cur) => {
+        // console.log(prev,cur);
+        // console.log(prev[cur.groupNo]);
+        // console.log(cur);
+        if (!prev[cur.groupNo]) {
+          prev[cur.groupNo] = [];
+        }
+        prev[cur.groupNo].push(cur);
+        return prev;
+      }, {});
+      // console.log(d);
+    },
   },
   created() {
 
