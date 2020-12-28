@@ -1,6 +1,7 @@
 <template>
   <div class=''>
     {{value}}
+    {{text}}
   </div>
 </template>
 
@@ -9,6 +10,7 @@ export default {
   data() {
     return {
       value:'测试',
+      text:'',
       arr:[
         {code: 'A1', index: 1, groupNo: '1'},
         {code: 'A2', index: 2, groupNo: '1'},
@@ -219,14 +221,14 @@ export default {
         prev[cur.groupNo].push(cur);
         return prev;
       }, {});
-      // console.log(d);
+      this.text=d
     },
   },
   created() {
 
   },
   mounted() {
-    this._changeArr();
+    this._changeArr2();
   },
 }
 </script>
