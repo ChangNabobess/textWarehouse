@@ -27,7 +27,7 @@ const routerModule={
   },
   getters: {
     routerState(state){
-      return state.routerState;
+      return state.num;
     }
   },
 }
@@ -48,7 +48,7 @@ const otherModule={
   },
   getters: {
     getOtherModuleValue(state){
-      return state.num
+      return state.otherModule
     }
   },
 }

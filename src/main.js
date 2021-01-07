@@ -3,11 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Prient from 'vue-print-nb'
-import countDown from 'vue-canvas-countdown'
+import axios from 'axios';
 
 Vue.config.productionTip = false
 Vue.use(Prient);
-Vue.use(countDown);
+Vue.prototype.$axios = axios //全局注册，使用方法为:this.$axios
 
 new Vue({
   router,

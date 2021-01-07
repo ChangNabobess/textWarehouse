@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <p>测试提交代码</p>
     <TabBar :tabList=tabList>
       <div slot="shangpinxiangqing">shangpinxiangqing</div>
       <div slot="guigecanshu">guigecanshu</div>

@@ -20,7 +20,7 @@
 export default {
   data() {
     return {
-      activeValue:'',
+      activeValue:'1',
       // tabList:[],
     };
   },
@@ -39,6 +39,7 @@ export default {
       this.activeValue=item.value;
       // this.$store.commit('routerState',item.value)
       this.$store.dispatch('commitRouterState',item.value)
+      // console.log('store',this.$store.getters.routerState);
     }
   },
   created() {

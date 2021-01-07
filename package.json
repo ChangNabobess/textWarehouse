@@ -7,9 +7,12 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "jspdf": "^2.2.0",
     "vue": "^2.6.11",
     "vue-canvas-countdown": "^1.0.1",
+    "vue-pdf": "^4.2.0",
     "vue-print-nb": "^1.5.0",
     "vue-router": "^3.2.0",
     "vue-video-player": "^5.0.2",
