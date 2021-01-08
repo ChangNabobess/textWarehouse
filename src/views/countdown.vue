@@ -17,36 +17,19 @@
       </div>
     </template>
     <template>
-      <button @click="clickEvent">点击下载PDF</button>
       <button @click="creatPdfFilds">点击生成PDF</button>
-      <button @click="downloadPDf">下载本地pdf文件</button>
+      <button @click="downloadPDf" loading>下载pdf文件</button>
+      <button @click="showpdf">预览pdf文档</button>
     </template>
-    <template>
-      <div class="tools">
-        <button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="prePage" class="mr10"> 上一页</button>
-        <button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="nextPage" class="mr10"> 下一页</button>
-        <div class="page">{{pageNum}}/{{pageTotalNum}} </div>
-        <button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="clock" class="mr10"> 顺时针</button>
-        <button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="counterClock" class="mr10"> 逆时针</button>
-      </div>
-      <pdf ref="pdf" 
-          :src="url" 
-          :page="pageNum"
-          :rotate="pageRotate"  
-          @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" 
-          @num-pages="pageTotalNum=$event" 
-          @error="pdfError($event)" 
-          @link-clicked="page = $event">
-      </pdf>
-    </template>
+    <ShowPdf :pdfshow='pdfshow' @pdfDialogClose='pdfDialogClose'></ShowPdf>
   </div>
 </template>
 
 <script>
-import pdf from 'vue-pdf'
+
 import countDown from 'vue-canvas-countdown'
-import {jsPDF} from 'jspdf'
+import ShowPdf from './showPdfDialog'
+import {jsPDF} from 'jspdf'//生成pdf组件
 export default {
   data() {
     return {
@@ -59,13 +42,7 @@ export default {
         text: '倒计时结束',
         color: '#fff'
       },
-      url: "http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf",
-      pageNum: 1,
-      pageTotalNum: 1,
-      pageRotate: 0,
-      // 加载进度
-      loadedRatio: 0,
-      curPageNum: 0,
+      pdfshow:false
     };
   },
   computed: {},
@@ -113,24 +90,13 @@ export default {
         doc.text("Hello semlinker!", 66, 88);
         const blob = new Blob([doc.output()], { type: "application/pdf" });
         blob.text().then((blobAsText) => {
-          console.log(blobAsText);
+          console.log('pdf文件：'+blobAsText);
         });
     },
-    clickEvent(){//下载文档
-      const download = (fileName, blob) => {
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = fileName;
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(link.href);
-      };
-      const fileName = "blob.pdf";//text/plain
-      const myBlob = new Blob(["一文彻底掌握 Blob Web API"], { type: "application/pdf" });
-      download(fileName, myBlob); 
-    },
     downloadPDf() {//下载本地pdf文件
-        this.$axios.get('static/test.pdf', {
+    // http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf
+    // static/test.pdf
+        this.$axios.get('./test.pdf', {
           responseType: 'blob', //重要
         }).then(response => {
           const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -143,42 +109,12 @@ export default {
           link.click();
         })
       },
-      // 上一页函数，
-    prePage() {
-      var page = this.pageNum
-      page = page > 1 ? page - 1 : this.pageTotalNum
-      this.pageNum = page
+    showpdf(){
+      this.pdfshow=true;
     },
-          // 下一页函数
-    nextPage() {
-      var page = this.pageNum
-      page = page < this.pageTotalNum ? page + 1 : 1
-      this.pageNum = page
-    },
-          // 页面顺时针翻转90度。
-    clock() {
-      this.pageRotate += 90
-    },
-          // 页面逆时针翻转90度。
-    counterClock() {
-      this.pageRotate -= 90
-    },
-          // 页面加载回调函数，其中e为当前页数
-    pageLoaded(e) {
-      this.curPageNum = e
-    },
-          // 其他的一些回调函数。
-    pdfError(error) {
-      console.error(error)
-    },
-    // 打印全部
-    pdfPrintAll() {
-      this.$refs.pdf.print()
-        },
-    // 打印指定部分
-    pdfPrint() {
-      this.$refs.pdf.print(100, [1, 2])
-      },
+    pdfDialogClose(val){
+      this.pdfshow=val;
+    }
   },
 
   created() {
@@ -191,7 +127,7 @@ export default {
   },
   components:{ 
     countDown,
-    pdf,
+    ShowPdf,
    }
 }
 </script>

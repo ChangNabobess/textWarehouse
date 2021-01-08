@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <TabBar :tabList=tabList>
       <div slot="shangpinxiangqing">shangpinxiangqing</div>
       <div slot="guigecanshu">guigecanshu</div>
