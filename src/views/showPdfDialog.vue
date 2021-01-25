@@ -4,26 +4,28 @@
       title="预览pdf模板"
       :visible.sync="dialogVisible"
       width="70%"
-      :before-close="handleClose">
-      <template>
-      <div class="tools">
-        <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="prePage" class="mr10"> 上一页</el-button>
-        <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="nextPage" class="mr10"> 下一页</el-button>
-        <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="clock" class="mr10"> 顺时针</el-button>
-        <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
-        <div class="page">{{pageNum}}/{{pageTotalNum}} </div>
-      </div>
-      <pdf ref="pdf" 
-          :src="url" 
-          :page="pageNum"
-          :rotate="pageRotate"  
-          @progress="loadedRatio = $event"
-          @page-loaded="pageLoaded($event)" 
-          @num-pages="pageTotalNum=$event" 
-          @error="pdfError($event)" 
-          @link-clicked="page = $event">
-      </pdf>
-    </template>
+      :before-close="handleClose"
+      v-dialogDrag
+      ref="dialog__wrapper">
+      <div class="dialog__wrapper" v-dialogDragWidth="$refs.dialog__wrapper">
+          <div class="tools">
+            <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="prePage" class="mr10"> 上一页</el-button>
+            <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="nextPage" class="mr10"> 下一页</el-button>
+            <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="clock" class="mr10"> 顺时针</el-button>
+            <el-button :theme="'default'" type="submit" :title="'基础按钮'" @click.stop="counterClock" class="mr10"> 逆时针</el-button>
+            <div class="page">{{pageNum}}/{{pageTotalNum}} </div>
+          </div>
+          <pdf ref="pdf" 
+              :src="url" 
+              :page="pageNum"
+              :rotate="pageRotate"  
+              @progress="loadedRatio = $event"
+              @page-loaded="pageLoaded($event)" 
+              @num-pages="pageTotalNum=$event" 
+              @error="pdfError($event)" 
+              @link-clicked="page = $event">
+          </pdf>
+    </div>
       <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -118,5 +120,4 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
 </style>
