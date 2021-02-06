@@ -17,7 +17,11 @@
       <div slot="guigecanshu">
         {{textTxt}}
       </div>
-      <div slot="peijianxiane">peijianxiane</div>
+      <div slot="peijianxiane" style="background-color: #d6ecab;border: 2px solid pink;">
+        <template style="background-color: #d6ecab;border: 2px solid pink;">
+          ceshi templateshuju 
+        </template>
+      </div>
       <div slot="chengjiaojilu">chengjiaojilu</div>
       <div slot="shangpinpingjia">shangpinpingjia</div>
     </TabBar>
@@ -43,27 +47,88 @@ export default {
         {label:"商品评价",value:"5",slotName:'shangpinpingjia'},
       ],
       copyText: 'a copy directives',
-      textTxt:'',
+      textTxt:'测试数组对象去重',
     };
   },
   mounted(){
-    // console.log(this.tabList);
+    this.changeArr();
   },
   methods:{
-    deWeight(objArray) {
-        var result = [];//去重后返回的结果数组
-        var temp = {};//临时对象
-        //将对象数组中每一项的name值作为属性，若temp不拥有此属性时则为temp添加此属性且将其值赋为true，并将这一项push到结果数组中
-        for(var i=0;i<objArray.length;i++){
-            var myname = objArray[i].buyPlanAttachmentType;
-            if(temp[myname]){//如果temp中已经存在此属性名，则说明遇到重复项
-                continue;//不继续执行接下来的代码，跳转至循环开头
-            }
-            temp[myname] = true;//为temp添加此属性（myname）且将其值赋为true
-            result.push(objArray[i]);//将这一项复制到结果数组result中去
-        }
-        return result;
+    changeArr(){
+      this.$axios.get('./arrDeweight.json').then(res=>{
+        if(res.data.code==200){
+          let arr=this.deWeight(res.data.data);
+          // console.log('数组对象去重',arr);
+        }else{}
+      });
+      let arr=[1,2,3,4,5,6,7,8,9,0,2,4,3,7];
+      // 这种去重的方法代码最少。这种方法还无法去掉“{}”空对象，后面的高阶方法会添加去掉重复“{}”的方法。
+      // console.log('数组去重',[...new Set(arr)]);
+      // console.log('数组去重',Array.from(new Set(arr)));
+      let testarr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+      // let testarr ={asd:'1',vfds:"3",cdb:"4",vfds:"2"};
+      // console.log(this.uniqueFor(testarr));
+      console.log(this.uniqueIndexOf(testarr));
     },
+    deWeight(objArray) {//利用对象键值不能重复的规则去重
+        //定义一个空数组，最后return出去
+        let resultArr=[];
+        //定义一个空对象，作为中介判断重复对象
+        let Obj={};
+        //添加一个for循环遍历传进来的每一个对象值
+        for(let i=0;i<objArray.length;i++){
+          //取一个传入对象的键值作为判断依据
+          /* let temp = objArray[i].id;
+          //判断该对象是否已有此键值
+          if(Obj[temp]){
+            //如果有的话就代码穿透，直接推出循环
+            continue;
+          }else{
+            //如果没有的话就将此键值设为true，方便下次循环判断
+            Obj[temp]=true;
+          };
+          //最终将符合条件的对象塞入resultArr数组中return出去
+          resultArr.push(objArray[i]); */
+          //化繁为简代码
+          Obj[objArray[i].id] ? '' : Obj[objArray[i].id] = true && resultArr.push(objArray[i]);
+        };
+        return resultArr;
+    },
+    uniqueFor(arr){//利用for嵌套for，然后splice去重（ES5中最常用）
+      if(Array.isArray(arr)){
+      for(let i=0;i<arr.length;i++){
+        for(let j=i+1;j<arr.length;j++){
+          if(arr[i]==arr[j]){
+            arr.splice(j,1);
+            j--;
+          }else{}
+        };
+        /* for(var i=0; i<arr.length; i++){
+            for(var j=i+1; j<arr.length; j++){
+                if(arr[i]==arr[j]){         //第一个等同于第二个，splice方法删除第二个
+                    arr.splice(j,1);
+                    j--;
+                }
+            }
+        } */
+      }
+      }else{
+        this.$message({message:"接受数据类型应为数组",type:'error'});
+      }
+      return arr;
+    },
+    uniqueIndexOf(arr) {//利用indexof判断新数组中是否包含某个元素
+      let res=[];
+      for(let i=0;i<arr.length;i++){
+        if(res.indexOf(arr[i])===-1){
+          res.push(arr[i])
+        };
+      };
+      return res;
+    },
+  },
+  created(){
+    
   }
 }
 </script>

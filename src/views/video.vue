@@ -252,7 +252,7 @@ export default {
       }else{};
     },
     getprotocolList(){//获取入围协议方法
-      this.$axios.get('./test.json').then(res=>{
+      this.$axios.get('./json/test.json').then(res=>{
         if(res.data.code==200){
           let arr=[];
           res.data.data.forEach((item)=>{
